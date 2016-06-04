@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="produtosApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body ng-controller="ProdutosController">
+        <table>
+            <legend>Tabela de Preços</legend>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="produto in produtos track by $index"
+                ng-dblclick="editar(produto)">
+                <td>{{produto.id}}</td>
+                <td>{{produto.nome}}</td>
+                <td>{{produto.preco}}</td>                
+                <td>
+                    [
+                     <a href="#" ng-click="editar(produto)">Editar</a> | 
+                     <a href="#" ng-click="excluir(produto)">Excluir</a>
+                    ]
+                </td>
+            </tr>
+        </table>
+        <br>
+        <form>
+            <label>Código</label><br/>
+            <input type="text" ng-model="produto.id"/><br/>
+            <label>Nome</label><br/>
+            <input type="text" ng-model="produto.nome"/><br/>
+            <label>Preço</label><br/>
+            <input type="text" ng-model="produto.preco"/><br/>
+            <button ng-click="salvar()">Salvar</button>
+            <button ng-click="cancelar()">Cancelar</button>
+        </form>
+        
+        <script src="js/angular.min.js"></script>
+        <script src="js/produtos.js"></script>
+    </body>
+</html>
