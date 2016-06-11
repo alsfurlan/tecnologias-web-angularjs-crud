@@ -1,5 +1,18 @@
 angular
-        .module('produtosApp', [])
+        .module('produtosApp', ['ngRoute'])
+        .config(function($routeProvider) {
+            $routeProvider
+                .when('/lista', {
+                    templateUrl: 'templates/lista.html'
+                })
+                .when('/cadastro', {
+                    templateUrl: 'templates/cadastro.html'            
+                })
+                .otherwise({
+                    redirectTo: '/lista'
+                });
+            
+        })
         .controller('ProdutosController', function ($scope, ProdutosService) {
             $scope.produtos = ProdutosService.listar();
     

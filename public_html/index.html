@@ -12,52 +12,13 @@
         </style>
     </head>
     <body ng-controller="ProdutosController">
-        <table>
-            <legend>Tabela de Preços</legend>
-            <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th></th>
-            </tr>
-            <tr ng-repeat="produto in produtos track by $index"
-                ng-dblclick="editar(produto)">
-                <td>{{produto.id}}</td>
-                <td>{{produto.nome}}</td>
-                <td>{{produto.preco}}</td>                
-                <td>
-                    [
-                    <a href="#" ng-click="editar(produto)">Editar</a> | 
-                    <a href="#" ng-click="excluir(produto)">Excluir</a>
-                    ]
-                </td>
-            </tr>
-        </table>
+        <h1>Tabela de Preços</h1>
+        [<a href="#/lista">Lista</a> | <a href="#/cadastro">Cadastro</a>]
         <br>
-        <form name="form">
-            <label>Código</label><br/>
-            <input type="text" ng-model="produto.id" required name="id"/><br/>
-            <p class="erro" ng-if="form.id.$error.required && form.id.$dirty">
-                O campo código é obrigatório! 
-            </p>
-            <label>Nome</label><br/>
-            <input type="text" ng-model="produto.nome" required minlength="3" name="nome"/><br/>
-            <p class="erro" ng-if="form.nome.$error.required && form.nome.$dirty">
-                O campo nome é obrigatório! 
-            </p>
-            <p class="erro" ng-if="form.nome.$error.minlength && form.nome.$dirty">
-                O campo nome deve possuir mais de 3 caracteres
-            </p>
-            <label>Preço</label><br/>
-            <input type="text" ng-model="produto.preco" required name="preco" /><br/>
-            <p class="erro" ng-if="form.preco.$error.required && form.preco.$dirty">
-                O campo código é obrigatório! 
-            </p>
-            <button ng-click="salvar()" ng-disabled="form.$invalid || form.$pristine">Salvar</button>
-            <button ng-click="cancelar()" ng-disabled="form.$pristine">Cancelar</button>
-        </form>
-
+        <br>
+        <div ng-view></div>
         <script src="js/angular.min.js"></script>
+        <script src="js/angular-route.min.js"></script>
         <script src="js/produtos.js"></script>
     </body>
 </html>
