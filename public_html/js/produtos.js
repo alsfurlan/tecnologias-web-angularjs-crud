@@ -5,6 +5,7 @@ angular
     
             function limpar() {
                 $scope.produto = {};
+                $scope.form.$setPristine();                
             }
             
             $scope.editar = function (produto) {

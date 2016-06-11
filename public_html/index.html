@@ -4,6 +4,12 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .erro {
+                color:red;
+                margin: 0px;
+            }
+        </style>
     </head>
     <body ng-controller="ProdutosController">
         <table>
@@ -21,24 +27,36 @@
                 <td>{{produto.preco}}</td>                
                 <td>
                     [
-                     <a href="#" ng-click="editar(produto)">Editar</a> | 
-                     <a href="#" ng-click="excluir(produto)">Excluir</a>
+                    <a href="#" ng-click="editar(produto)">Editar</a> | 
+                    <a href="#" ng-click="excluir(produto)">Excluir</a>
                     ]
                 </td>
             </tr>
         </table>
         <br>
-        <form>
+        <form name="form">
             <label>Código</label><br/>
-            <input type="text" ng-model="produto.id"/><br/>
+            <input type="text" ng-model="produto.id" required name="id"/><br/>
+            <p class="erro" ng-if="form.id.$error.required && form.id.$dirty">
+                O campo código é obrigatório! 
+            </p>
             <label>Nome</label><br/>
-            <input type="text" ng-model="produto.nome"/><br/>
+            <input type="text" ng-model="produto.nome" required minlength="3" name="nome"/><br/>
+            <p class="erro" ng-if="form.nome.$error.required && form.nome.$dirty">
+                O campo nome é obrigatório! 
+            </p>
+            <p class="erro" ng-if="form.nome.$error.minlength && form.nome.$dirty">
+                O campo nome deve possuir mais de 3 caracteres
+            </p>
             <label>Preço</label><br/>
-            <input type="text" ng-model="produto.preco"/><br/>
-            <button ng-click="salvar()">Salvar</button>
-            <button ng-click="cancelar()">Cancelar</button>
+            <input type="text" ng-model="produto.preco" required name="preco" /><br/>
+            <p class="erro" ng-if="form.preco.$error.required && form.preco.$dirty">
+                O campo código é obrigatório! 
+            </p>
+            <button ng-click="salvar()" ng-disabled="form.$invalid || form.$pristine">Salvar</button>
+            <button ng-click="cancelar()" ng-disabled="form.$pristine">Cancelar</button>
         </form>
-        
+
         <script src="js/angular.min.js"></script>
         <script src="js/produtos.js"></script>
     </body>
