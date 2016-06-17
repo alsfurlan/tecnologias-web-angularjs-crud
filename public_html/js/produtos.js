@@ -1,41 +1,47 @@
 angular
         .module('produtosApp', ['ngRoute'])
-        .config(function($routeProvider) {
+        .config(function ($routeProvider) {
             $routeProvider
-                .when('/lista', {
-                    templateUrl: 'templates/lista.html'
-                })
-                .when('/cadastro', {
-                    templateUrl: 'templates/cadastro.html'            
-                })
-                .otherwise({
-                    redirectTo: '/lista'
-                });
-            
+                    .when('/lista', {
+                        templateUrl: 'templates/lista.html',
+                        controller: 'ListaProdutosController'
+                    })
+                    .when('/cadastro', {
+                        templateUrl: 'templates/cadastro.html',
+                        controller: 'CadastroProdutosController'
+                    })
+                    .when('/cadastro/:id', {
+                        templateUrl: 'templates/cadastro.html',
+                        controller: 'CadastroProdutosController'
+                    })
+                    .otherwise({
+                        redirectTo: '/lista'
+                    });
         })
-        .controller('ProdutosController', function ($scope, ProdutosService) {
+        .controller('ListaProdutosController', function ($scope, ProdutosService) {
             $scope.produtos = ProdutosService.listar();
-    
-            function limpar() {
+
+            $scope.excluir = function (produto) {
+                ProdutosService.excluir(produto);
+            };
+        })
+        .controller('CadastroProdutosController', function ($scope, ProdutosService, $location, $routeParams) {
+
+            if ($routeParams.id) {
+                $scope.produto = ProdutosService.getProduto($routeParams.id);
+            } else {
                 $scope.produto = {};
-                $scope.form.$setPristine();                
             }
-            
-            $scope.editar = function (produto) {
-                $scope.produto = angular.copy(produto);
-            };
-            
-            $scope.cancelar = function() {
-                limpar();
-            };
-            
-            $scope.excluir = function(produto) {
-                ProdutosService.excluir(produto);                
-            };
-            
+
+
+
             $scope.salvar = function () {
                 ProdutosService.salvar($scope.produto);
-                limpar();
+                $location.path("/lista");
+            };
+
+            $scope.cancelar = function () {
+                $location.path("/lista");
             };
         })
         .service('ProdutosService', function () {
@@ -47,11 +53,19 @@ angular
             this.listar = function () {
                 return produtos;
             };
-            
-            this.excluir = function(produto) {
+
+            this.getProduto = function (id) {
+                for (var i = 0; i < produtos.length; i++) {
+                    if (produtos[i].id == id) {
+                        return produtos[i];
+                    }
+                }
+            };
+
+            this.excluir = function (produto) {
                 var id = produto.id;
-                for(var i=0; i < produtos.length; i++) {
-                    if(produtos[i].id == id) {
+                for (var i = 0; i < produtos.length; i++) {
+                    if (produtos[i].id == id) {
                         produtos.splice(i, 1);
                     }
                 }
